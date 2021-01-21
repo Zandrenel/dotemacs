@@ -74,11 +74,6 @@
 
 ** Prolog Mode
 #+begin_src emacs-lisp
-
-#+end_src
-* Minor Mode Mods
-* Package Respositories 
-#+BEGIN_SRC emacs-lisp
 (autoload 'run-prolog "prolog" "Start a prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (autoload 'mercury-mode "prolog" "Major mode for editing a Mercury programs." t)
@@ -86,6 +81,10 @@
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
 				("\\.m$" . mercury-mode))
 				auto-mode-alist))
+#+end_src
+* Minor Mode Mods
+* Package Respositories 
+#+BEGIN_SRC emacs-lisp
 ;; Melpa package initializatio
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -93,7 +92,6 @@
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
-
 #+END_SRC
 
 * Packages
