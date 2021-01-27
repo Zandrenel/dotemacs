@@ -1,0 +1,5 @@
+Change Log
+
+01/27/2021
+- Switched package repositories to primary .emacs file for ease of downloading config to devices without the org-dotmacs package.
+- Added a file list of downloaded packages.

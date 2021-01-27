@@ -1,0 +1,13 @@
+Package List
+
+
+----Installed----
+- org-dotemacs
+- auctex
+- latex-preview-pane
+- pdf-tools
+- multiple-cursors
+- ob-prolog
+- vlf
+- docker-tramp
+- cpputils-cmake
