@@ -8,7 +8,7 @@
  '(custom-enabled-themes '(tsdh-dark))
  '(org-agenda-files '("~/Documents/Org/Agendas/classes_weekly.org"))
  '(package-selected-packages
-   '(pdf-tools cpputils-cmake docker-tramp auctex multiple-cursors latex-preview-pane ob-prolog org-dotemacs vlf))
+   '(javadoc-lookup ediprolog swift-playground-mode swift-mode ob-sql-mode ob-latex-as-png irony company-c-headers flycheck flymake auto-complete-clang clojure-mode pdf-tools cpputils-cmake docker-tramp auctex multiple-cursors latex-preview-pane ob-prolog org-dotemacs vlf))
  '(send-mail-function 'mailclient-send-it))
 ;;---------------------------------------------------
 (custom-set-faces
