@@ -6,6 +6,7 @@
 
 ;;Extra paths
 (add-to-list 'exec-path "/usr/local/bin")
+
 #+END_SRC
 
 * Window Modifications
@@ -15,7 +16,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
-
+(display-time)
 ;; Enable transient mark mode
 (transient-mark-mode 1)
 #+END_SRC
@@ -78,8 +79,12 @@
 (autoload 'mercury-mode "prolog" "Major mode for editing a Mercury programs." t)
 (setq proloh-system 'swi)
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-				("\\.m$" . mercury-mode))
-				auto-mode-alist))
+                      ("\\.m$" . mercury-mode))
+		      auto-mode-alist))
+(require 'ediprolog)
+(global-set-key [f12] 'ediprolog-dwim)
+		      
+
 #+end_src
 ** Swift Mode
 #+begin_src emacs-lisp
@@ -87,7 +92,23 @@
   (autoload 'swift-playground-global-mode "swift-playground-mode" nil t)
   (add-hook 'swift-mode-hook #'swift-playground-global-mode))
 #+end_src
+** C++ mode
+#+begin_src emacs-lisp
+(setq c-basic-offset 4)
+#+end_src
 * Minor Mode Mods
+** engine-mode
+Bound to key *C-x /* to start while highlighting a selection
+#+begin_src emacs-lisp
+(require 'engine-mode)
+(engine-mode t)
+(defengine github
+  "https://github.com/search?ref=simplesearch&q=%s"
+  :keybinding "g")
+(defengine duckduckgo
+  "https://duckduckgo.com/?q=%s"
+  :keybinding "d")
+#+end_src
 * Packages
 ** multiple-cursors
 #+BEGIN_SRC emacs-lisp
@@ -107,18 +128,27 @@
 
 #+END_SRC
 
-** cpputils-cmake
+** mpv
 #+begin_src emacs-lisp
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (if (derived-mode-p 'c-mode 'c++-mode)
-                (cppcm-reload-all)
-              )))
-;; OPTIONAL, somebody reported that they can use this package with Fortran
-(add-hook 'c90-mode-hook (lambda () (cppcm-reload-all)))
-;; OPTIONAL, avoid typing full path when starting gdb
-(global-set-key (kbd "C-c C-g")
- '(lambda ()(interactive) (gud-gdb (concat "gdb --fullname " (cppcm-get-exe-path-current-buffer)))))
-;; OPTIONAL, some users need specify extra flags forwarded to compiler
-(setq cppcm-extra-preprocss-flags-from-user '("-I/usr/src/linux/include" "-DNDEBUG"))
+(org-add-link-type "mpv" #'mpv-play)
+(defun org-mpv-complete-link (&optional arg)
+  (replace-regexp-in-string
+   "file:" "mpv:"
+   (org-file-complete-link arg)
+   t t))
+(add-hook 'org-open-at-point-functions #'mpv-seek-to-position-at-point)
+#+end_src
+** emms
+#+begin_src emacs-lisp
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+(setq emms-source-file-default-directory "~/Music/")
+(require 'emms-player-simple)
+(require 'emms-source-file)
+(require 'emms-source-playlist)
+(setq emms-player-list '(mpv-play
+                         emms-player-mpg321
+                         emms-player-ogg123
+                         emms-player-mplayer))
 #+end_src
