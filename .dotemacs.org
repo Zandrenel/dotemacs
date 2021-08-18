@@ -1,22 +1,38 @@
 
+[[file:/usr/share/emacs/27.1/lisp/][Directory with source files]]
+#+STARTUP: overview
 
 * Defaults
 #+BEGIN_SRC emacs-lisp
-(setq browse-url-browser-function 'browse-url-firefox')
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave")
 
 ;;Extra paths
 (add-to-list 'exec-path "/usr/local/bin")
+
+;; Extra Execute paths
+;;(setq exec-path (append exec-path '("/usr/local/bin")))
+
+;;Scroll step
+(setq scroll-step 1)
+
 #+END_SRC
 
 * Window Modifications
-
 #+BEGIN_SRC emacs-lisp
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1) 
 (setq inhibit-splash-screen t)
+(set-fringe-mode 0) 
+(display-time-mode t)
 
-;; Enable transient mark mode
+;; Displays line numbers settings
+;;(column-number-mode)
+;;(global-display-line-numbers-mode t)
+
+ ; Enable transient mark mode
 (transient-mark-mode 1)
 #+END_SRC
 
@@ -27,6 +43,13 @@
 (pdf-tools-install)
 #+END_SRC
 * Major Mode Mods
+** EXWM
+#+BEGIN_SRC emacs-lisp
+(require 'exwm)
+(require 'exwm-config)
+(exwm-config-example)
+
+#+END_SRC
 ** TRAMP
 #+BEGIN_SRC emacs-lisp
 (setq tramp-default-method "ssh")
@@ -34,20 +57,20 @@
 #+END_SRC
 
 ** Org Mode
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 
- ;;;;Org mode configuration
- ;; Enable Org mode
- (require 'org)
+;;;;Org mode configuration
+;; Enable Org mode
+(require 'org)
 
- ;; Make Org mode work with files ending in .org
- (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; Make Org mode work with files ending in .org
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
- ;; The above is the default in recent emacsen
- (setq org-todo-keywords 
-   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
-
- #+END_SRC
+;; The above is the default in recent emacsen
+(setq org-todo-keywords 
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(setq org-src-tab-acts-natively t)
+#+END_SRC
 *** Agendas
  #+BEGIN_SRC emacs-lisp
  (setq org-agenda-files (list "~/Documents/Org/Agendas/school.org"
@@ -70,7 +93,7 @@
 
 
  #+END_SRC
-
+ 
 ** Prolog Mode
 #+begin_src emacs-lisp
 (autoload 'run-prolog "prolog" "Start a prolog sub-process." t)
@@ -78,8 +101,12 @@
 (autoload 'mercury-mode "prolog" "Major mode for editing a Mercury programs." t)
 (setq proloh-system 'swi)
 (setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-				("\\.m$" . mercury-mode))
-				auto-mode-alist))
+                      ("\\.m$" . mercury-mode))
+		      auto-mode-alist))
+(require 'ediprolog)
+(global-set-key [f12] 'ediprolog-dwim)
+		      
+
 #+end_src
 ** Swift Mode
 #+begin_src emacs-lisp
@@ -87,7 +114,23 @@
   (autoload 'swift-playground-global-mode "swift-playground-mode" nil t)
   (add-hook 'swift-mode-hook #'swift-playground-global-mode))
 #+end_src
+** C++ mode
+#+begin_src emacs-lisp
+(setq c-basic-offset 4)
+#+end_src
 * Minor Mode Mods
+** engine-mode
+Bound to key *C-x /* to start while highlighting a selection
+#+begin_src emacs-lisp
+(require 'engine-mode)
+(engine-mode t)
+(defengine github
+  "https://github.com/search?ref=simplesearch&q=%s"
+  :keybinding "g")
+(defengine duckduckgo
+  "https://duckduckgo.com/?q=%s"
+  :keybinding "d")
+#+end_src
 * Packages
 ** multiple-cursors
 #+BEGIN_SRC emacs-lisp
@@ -107,18 +150,28 @@
 
 #+END_SRC
 
-** cpputils-cmake
+** emms
 #+begin_src emacs-lisp
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (if (derived-mode-p 'c-mode 'c++-mode)
-                (cppcm-reload-all)
-              )))
-;; OPTIONAL, somebody reported that they can use this package with Fortran
-(add-hook 'c90-mode-hook (lambda () (cppcm-reload-all)))
-;; OPTIONAL, avoid typing full path when starting gdb
-(global-set-key (kbd "C-c C-g")
- '(lambda ()(interactive) (gud-gdb (concat "gdb --fullname " (cppcm-get-exe-path-current-buffer)))))
-;; OPTIONAL, some users need specify extra flags forwarded to compiler
-(setq cppcm-extra-preprocss-flags-from-user '("-I/usr/src/linux/include" "-DNDEBUG"))
+(require 'emms-setup)
+(setq emms-source-file-default-directory "~/Music/")
+;;(emms-minimalistic)
+(emms-standard)
+(emms-default-players)
 #+end_src
+
+** Ispell
+#+begin_src emacs-lisp
+;; Completion words longer than 4 characters
+(custom-set-variables
+  '(ac-ispell-requires 4)
+  '(ac-ispell-fuzzy-limit 4))
+
+(eval-after-load "auto-complete"
+  '(progn
+     (ac-ispell-setup)))
+ 
+(add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
+(add-hook 'mail-mode-hook 'ac-ispell-ac-setup)
+
+#+end_src
+   
