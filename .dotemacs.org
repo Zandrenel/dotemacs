@@ -1,23 +1,38 @@
 
+[[file:/usr/share/emacs/27.1/lisp/][Directory with source files]]
+#+STARTUP: overview
 
 * Defaults
 #+BEGIN_SRC emacs-lisp
-(setq browse-url-browser-function 'browse-url-firefox')
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave")
 
 ;;Extra paths
 (add-to-list 'exec-path "/usr/local/bin")
 
+;; Extra Execute paths
+;;(setq exec-path (append exec-path '("/usr/local/bin")))
+
+;;Scroll step
+(setq scroll-step 1)
+
 #+END_SRC
 
 * Window Modifications
-
 #+BEGIN_SRC emacs-lisp
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1) 
 (setq inhibit-splash-screen t)
-(display-time)
-;; Enable transient mark mode
+(set-fringe-mode 0) 
+(display-time-mode t)
+
+;; Displays line numbers settings
+;;(column-number-mode)
+;;(global-display-line-numbers-mode t)
+
+ ; Enable transient mark mode
 (transient-mark-mode 1)
 #+END_SRC
 
@@ -28,6 +43,13 @@
 (pdf-tools-install)
 #+END_SRC
 * Major Mode Mods
+** EXWM
+#+BEGIN_SRC emacs-lisp
+(require 'exwm)
+(require 'exwm-config)
+(exwm-config-example)
+
+#+END_SRC
 ** TRAMP
 #+BEGIN_SRC emacs-lisp
 (setq tramp-default-method "ssh")
@@ -35,20 +57,20 @@
 #+END_SRC
 
 ** Org Mode
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 
- ;;;;Org mode configuration
- ;; Enable Org mode
- (require 'org)
+;;;;Org mode configuration
+;; Enable Org mode
+(require 'org)
 
- ;; Make Org mode work with files ending in .org
- (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; Make Org mode work with files ending in .org
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
- ;; The above is the default in recent emacsen
- (setq org-todo-keywords 
-   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
-
- #+END_SRC
+;; The above is the default in recent emacsen
+(setq org-todo-keywords 
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(setq org-src-tab-acts-natively t)
+#+END_SRC
 *** Agendas
  #+BEGIN_SRC emacs-lisp
  (setq org-agenda-files (list "~/Documents/Org/Agendas/school.org"
@@ -71,7 +93,7 @@
 
 
  #+END_SRC
-
+ 
 ** Prolog Mode
 #+begin_src emacs-lisp
 (autoload 'run-prolog "prolog" "Start a prolog sub-process." t)
@@ -128,27 +150,28 @@ Bound to key *C-x /* to start while highlighting a selection
 
 #+END_SRC
 
-** mpv
-#+begin_src emacs-lisp
-(org-add-link-type "mpv" #'mpv-play)
-(defun org-mpv-complete-link (&optional arg)
-  (replace-regexp-in-string
-   "file:" "mpv:"
-   (org-file-complete-link arg)
-   t t))
-(add-hook 'org-open-at-point-functions #'mpv-seek-to-position-at-point)
-#+end_src
 ** emms
 #+begin_src emacs-lisp
 (require 'emms-setup)
-(emms-all)
-(emms-default-players)
 (setq emms-source-file-default-directory "~/Music/")
-(require 'emms-player-simple)
-(require 'emms-source-file)
-(require 'emms-source-playlist)
-(setq emms-player-list '(mpv-play
-                         emms-player-mpg321
-                         emms-player-ogg123
-                         emms-player-mplayer))
+;;(emms-minimalistic)
+(emms-standard)
+(emms-default-players)
 #+end_src
+
+** Ispell
+#+begin_src emacs-lisp
+;; Completion words longer than 4 characters
+(custom-set-variables
+  '(ac-ispell-requires 4)
+  '(ac-ispell-fuzzy-limit 4))
+
+(eval-after-load "auto-complete"
+  '(progn
+     (ac-ispell-setup)))
+ 
+(add-hook 'git-commit-mode-hook 'ac-ispell-ac-setup)
+(add-hook 'mail-mode-hook 'ac-ispell-ac-setup)
+
+#+end_src
+   
