@@ -8,11 +8,13 @@
  '(ac-ispell-fuzzy-limit 4)
  '(ac-ispell-requires 4)
  '(custom-enabled-themes '(tsdh-dark))
+ '(ein:output-area-inlined-images t)
  '(org-adapt-indentation nil)
  '(org-agenda-files '("~/Documents/Org/Agendas/classes_weekly.org"))
  '(package-selected-packages
-   '(kotlin-mode php-mode ac-ispell ansi shut-up epl git commander f cask haskell-mode vlc mpv emms pandoc-mode pandoc engine-mode javadoc-lookup ediprolog swift-playground-mode swift-mode ob-sql-mode ob-latex-as-png company-c-headers clojure-mode pdf-tools docker-tramp auctex multiple-cursors latex-preview-pane ob-prolog org-dotemacs vlf))
- '(send-mail-function 'mailclient-send-it))
+   '(web-mode math-preview ein cdlatex org-fragtog matlab-mode kotlin-mode php-mode ac-ispell ansi shut-up epl git commander f cask haskell-mode vlc mpv emms pandoc-mode pandoc engine-mode javadoc-lookup ediprolog swift-playground-mode swift-mode ob-sql-mode ob-latex-as-png company-c-headers clojure-mode pdf-tools docker-tramp auctex multiple-cursors latex-preview-pane ob-prolog org-dotemacs vlf))
+ '(send-mail-function 'mailclient-send-it)
+ '(shell-escape-mode "-shell-escape"))
 ;;---------------------------------------------------
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

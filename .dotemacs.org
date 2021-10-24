@@ -1,6 +1,6 @@
 
 [[file:/usr/share/emacs/27.1/lisp/][Directory with source files]]
-#+STARTUP: overview
+#+STARTUP: overview 
 
 * Defaults
 #+BEGIN_SRC emacs-lisp
@@ -59,17 +59,25 @@
 ** Org Mode
 #+BEGIN_SRC emacs-lisp
 
-;;;;Org mode configuration
-;; Enable Org mode
-(require 'org)
+  ;;Org mode configuration
+  ;; Enable Org mode
+  (require 'org)
 
-;; Make Org mode work with files ending in .org
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+  ;;increase the scale of embedded latex
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 
-;; The above is the default in recent emacsen
-(setq org-todo-keywords 
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
-(setq org-src-tab-acts-natively t)
+  ;;adds hook for viewing latex in org mode
+  (add-hook 'org-mode-hook 'org-fragtog-mode)
+
+
+  ;; Make Org mode work with files ending in .org
+  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+  ;; The above is the default in recent emacsen
+  (setq org-todo-keywords 
+	'((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+  (setq org-src-tab-acts-natively t)
+
 #+END_SRC
 *** Agendas
  #+BEGIN_SRC emacs-lisp
@@ -117,6 +125,22 @@
 ** C++ mode
 #+begin_src emacs-lisp
 (setq c-basic-offset 4)
+#+end_src
+** Web-Mode
+#+begin_src emacs-lisp
+  (require 'web-mode)
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+#+end_src
+** Lisp Mode
+#+begin_src emacs-lisp
+  (setq auto-mode-alist (append '(("\\.lisp$" . lisp-mode))
+				   auto-mode-alist))
 #+end_src
 * Minor Mode Mods
 ** engine-mode
@@ -175,3 +199,8 @@ Bound to key *C-x /* to start while highlighting a selection
 
 #+end_src
    
+
+** Math-Preview
+#+begin_src emacs-lisp
+
+#+end_src
