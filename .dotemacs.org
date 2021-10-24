@@ -58,6 +58,7 @@
 
 ** Org Mode
 #+BEGIN_SRC emacs-lisp
+<<<<<<< HEAD
 
   ;;Org mode configuration
   ;; Enable Org mode
@@ -78,6 +79,20 @@
 	'((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
   (setq org-src-tab-acts-natively t)
 
+=======
+
+;;;;Org mode configuration
+;; Enable Org mode
+(require 'org)
+
+;; Make Org mode work with files ending in .org
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+;; The above is the default in recent emacsen
+(setq org-todo-keywords 
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(setq org-src-tab-acts-natively t)
+>>>>>>> 1fb40f1f19a365a734e1f47c21f39d3084705179
 #+END_SRC
 *** Agendas
  #+BEGIN_SRC emacs-lisp
@@ -199,8 +214,8 @@ Bound to key *C-x /* to start while highlighting a selection
 
 #+end_src
    
-
 ** Math-Preview
 #+begin_src emacs-lisp
 
 #+end_src
+   
